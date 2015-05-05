@@ -9503,13 +9503,20 @@ System.register("d3", [], function(systemjs_export) {
   // if (typeof define === "function" && define.amd) define(d3); else if (typeof module === "object" && module.exports) module.exports = d3;
   // this.d3 = d3;
 
+  var methods = Object.keys(d3)
   return {
     setters: [
     function(m) {
-      d3 = d3.d3;
+      methods.forEach(function(p) {
+        if (p in d3) {
+          systemjs_export(p, d3[p]);
+        }
+      });
     }],
     execute: function() {
-      systemjs_export('d3', d3);
+      for (var method in d3) {
+        systemjs_export(method, d3[method]);
+      }
     }
   };
 });
